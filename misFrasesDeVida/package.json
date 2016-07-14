@@ -1,7 +1,7 @@
 {
-  "name": "misfrasesdevida",
+  "name": "misFrasesDeVida",
   "version": "1.1.1",
-  "description": "misFrasesDeVida: An Ionic project",
+  "description": "Aplicación mobile para motivarse cada día",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
