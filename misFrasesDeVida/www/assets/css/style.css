@@ -1,1 +1,15 @@
-/* Empty. Add your own CSS if you like */
+.aehp-box {
+    border: 1px solid blue;
+    border-radius: 10px;
+    color: blue;
+    background-color: white;
+    padding: 5px;
+}
+
+.aehp-separator {
+	padding-top: 20px;
+}
+
+.aehp-citation {
+	font-size: 20px;
+}
