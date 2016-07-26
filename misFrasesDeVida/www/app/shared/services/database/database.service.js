@@ -13,6 +13,7 @@ function DatabaseService($q, ToolService) {
 	self.getData = getData;
 	self.updateCitationImageLoved = updateCitationImageLoved;
 	self.updateRangeCategory = updateRangeCategory;
+	self.updateIsVisibleCategory = updateIsVisibleCategory;
 
 	function openDatabase() {
 
@@ -320,6 +321,16 @@ function DatabaseService($q, ToolService) {
 		var query = "UPDATE APP_CATEGORY SET RANGE = ? WHERE ID = ?";
 
 		var params = [rangeCategory, idCategory];
+
+		updateData(query, params);
+
+	}
+
+	function updateIsVisibleCategory(idCategory, isVisibleCategory) {
+
+		var query = "UPDATE APP_CATEGORY SET IS_VISIBLE = ? WHERE ID = ?";
+
+		var params = [isVisibleCategory, idCategory];
 
 		updateData(query, params);
 

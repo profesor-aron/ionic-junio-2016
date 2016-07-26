@@ -9,16 +9,36 @@
   <ion-list show-reorder="true">
 
     <div class="item item-divider">
-      Categories
+
+      <div
+        class="enable-pointer-events"
+        ng-click="actions.updateCategoriesBySelectAll()">
+
+        <img
+          src="assets/img/checkbox/{{ model.selectAllCategories ? 'checkbox-on.png' : 'checkbox-off.png' }}"
+          width="30px">
+
+        Categories
+
+      </div>
+
     </div>
 
     <ion-item ng-repeat="category in model.categories">
 
-      <img src="assets/img/checkbox/{{ category.is_visible ? 'checkbox-on.png' : 'checkbox-off.png' }}" width="30px">
+      <div
+       	class="enable-pointer-events"
+       	ng-click="actions.updateCategoryByIsVisible(category)">
 
-      <img src="assets/img/categories/{{ category.icon }}" width="30px">
+        <img
+          src="assets/img/checkbox/{{ category.is_visible ? 'checkbox-on.png' : 'checkbox-off.png' }}"
+          width="30px">
 
-      <span>{{ category.name }}</span>
+        <img src="assets/img/categories/{{ category.icon }}" width="30px">
+
+        <span >{{ category.name }}</span>
+
+      </div>
 
       <ion-reorder-button 
         class="ion-navicon" 

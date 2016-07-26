@@ -29,6 +29,7 @@ angular.module('starter', ['ionic', 'ngCordova'])
 
 			$http.get('data.txt')
             .then(function (data) {
+            	console.log(data);
                 $rootScope.data = data.data;
             }, function (error) {
                 console.log("Error " + error);

@@ -21,8 +21,28 @@ function SettingsCategoriesController($scope, $rootScope, $state, DatabaseServic
 
 		$scope.model = {};
 		$scope.model.categories = self.catsCits;
-		
-		
+
+		updateSelectAllCategories();
+
+	}
+
+	function updateSelectAllCategories() {
+
+		var categories = getCategories();
+
+		var count = 0;
+		var nbCategories = categories.length;
+
+		angular.forEach(categories, function(category) {
+			count += category.is_visible;
+		});
+
+		if (count === nbCategories) {
+			$scope.model.selectAllCategories = true;	
+		} else {
+			$scope.model.selectAllCategories = false;
+		}
+
 	}
 
 	function initActions() {
@@ -30,6 +50,8 @@ function SettingsCategoriesController($scope, $rootScope, $state, DatabaseServic
 		$scope.actions = {};
 		$scope.actions.goToCategories = goToCategories;
 		$scope.actions.moveItem = moveItem;
+		$scope.actions.updateCategoryByIsVisible = updateCategoryByIsVisible;
+		$scope.actions.updateCategoriesBySelectAll = updateCategoriesBySelectAll;
 
 	}
 
@@ -69,6 +91,48 @@ function SettingsCategoriesController($scope, $rootScope, $state, DatabaseServic
 
 			DatabaseService.updateRangeCategory(category.id, category.range);
 
+		});
+
+	}
+
+	function updateCategoryByIsVisible(category) {
+
+		category.is_visible = !category.is_visible;
+
+		updateSelectAllCategories();
+
+		updateIsVisibleCategoryDB(category);
+
+	}
+
+	function updateCategoriesBySelectAll() {
+
+		var categories = getCategories();
+
+		$scope.model.selectAllCategories = !$scope.model.selectAllCategories;
+
+		angular.forEach(categories, function(category) {
+			category.is_visible = $scope.model.selectAllCategories;
+		});
+
+		updateIsVisibleCategoriesDB();
+
+	}
+
+	function updateIsVisibleCategoryDB(category) {
+
+		var isVisibleCategory = Number(category.is_visible);
+
+		DatabaseService.updateIsVisibleCategory(category.id, isVisibleCategory);
+
+	}
+
+	function updateIsVisibleCategoriesDB() {
+
+		var categories = getCategories();
+
+		angular.forEach(categories, function(category) {
+			updateIsVisibleCategoryDB(category);
 		});
 
 	}
