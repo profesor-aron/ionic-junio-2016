@@ -1,0 +1,48 @@
+<ion-view>
+
+<div class="bar bar-header bar-positive">
+  <h1 class="title">Settings Categories</h1>
+</div>
+
+<ion-content class="padding has-header">
+
+  <ion-list show-reorder="true">
+
+    <div class="item item-divider">
+      Categories
+    </div>
+
+    <ion-item ng-repeat="category in model.categories">
+
+      <img src="assets/img/checkbox/{{ category.is_visible ? 'checkbox-on.png' : 'checkbox-off.png' }}" width="30px">
+
+      <img src="assets/img/categories/{{ category.icon }}" width="30px">
+
+      <span>{{ category.name }}</span>
+
+      <ion-reorder-button 
+        class="ion-navicon" 
+    	on-reorder="actions.moveItem(category, $fromIndex, $toIndex)">
+      </ion-reorder-button>
+
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
+
+<ion-footer-bar class="bar-assertive">
+
+  <div class="row">
+
+    <div class="col col-25 col-center">
+      <button class="button button-block" ng-click="actions.goToCategories()">
+        <i class="icon ion-arrow-left-b"></i>
+      </button>
+    </div>
+
+  </div>
+
+</ion-footer-bar>
+
+</ion-view>

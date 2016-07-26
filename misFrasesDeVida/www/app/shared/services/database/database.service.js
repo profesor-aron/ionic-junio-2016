@@ -10,7 +10,9 @@ function DatabaseService($q, ToolService) {
 
 	self.openDatabase = openDatabase;
 	self.getLanguages = getLanguages;
-	self.getCitationsByLanguage = getCitationsByLanguage;
+	self.getData = getData;
+	self.updateCitationImageLoved = updateCitationImageLoved;
+	self.updateRangeCategory = updateRangeCategory;
 
 	function openDatabase() {
 
@@ -88,7 +90,7 @@ function DatabaseService($q, ToolService) {
 
 	}
 
-	function getCitationsByLanguage(codeLanguage) {
+	function getData() {
 
 		var deferred = $q.defer();
 
@@ -96,26 +98,204 @@ function DatabaseService($q, ToolService) {
 
 		promise.then(function() {
 
-			var codeLan = codeLanguage.toUpperCase(); // EN, ES, FR
-			var columnCategoryName = "NAME_" + codeLan;
-			var columnCitationContent = "CONTENT_" + codeLan;
-			var columnCitationAuthor = "AUTHOR_" + codeLan;
+			function getLanguageSelected() {
+				var deferred = $q.defer();
+				var query = "SELECT * FROM APP_LANGUAGE WHERE IS_SELECTED = 1";
+				getDataBySelectQuery(deferred, query);				
+				return deferred.promise;
+			}
 
-			var query = 
-				"SELECT CAT.ID AS ID_CATEGORY, " +
-				"CAT." + columnCategoryName + " AS CATEGORY, " +
-				"CAT.RANGE, " +
-				"CIT.ID AS ID_CITATION, " +
-				"CIT." + columnCitationContent + " AS CITATION, " +
-				"CIT." + columnCitationAuthor + " AS AUTHOR, " +
-				"CIT.IS_LOVED " +
-	            "FROM APP_CATEGORY CAT, APP_CITATION CIT " +
-	            "WHERE " +
-	            "CAT.ID = CIT.ID_CATEGORY " +
-	            "AND CAT.IS_VISIBLE = 1 " +
-	            "ORDER BY CAT.RANGE";
+			var promiseLang = getLanguageSelected();
 
-			getDataBySelectQuery(deferred, query);
+			promiseLang.then(function(languages) {
+
+				var language = languages[0];
+				var codeLanguage = language.CODE; // en, es, fr
+
+				codeLanguage = codeLanguage.toUpperCase(); // EN, ES, FR
+
+				function getCitationsByLanguage() {
+					var deferred = $q.defer();
+
+					var columnCategoryName = "NAME_" + codeLanguage;
+					var columnCitationContent = "CONTENT_" + codeLanguage;
+					var columnCitationAuthor = "AUTHOR_" + codeLanguage;
+
+					var query = 
+						"SELECT CAT.ID AS ID_CATEGORY, " +
+						"CAT." + columnCategoryName + " AS CATEGORY, " +
+						"CAT.IS_VISIBLE, " +
+						"CAT.RANGE, " +
+						"CAT.ICON, " +
+						"CIT.ID AS ID_CITATION, " +
+						"CIT." + columnCitationContent + " AS CITATION, " +
+						"CIT." + columnCitationAuthor + " AS AUTHOR, " +
+						"CIT.IS_LOVED " +
+			            "FROM APP_CATEGORY CAT, APP_CITATION CIT " +
+			            "WHERE " +
+			            "CAT.ID = CIT.ID_CATEGORY " +
+			            "ORDER BY CAT.RANGE";
+
+					getDataBySelectQuery(deferred, query);
+					
+					return deferred.promise;
+				}
+
+				function getLanguagesData() {
+					var deferred = $q.defer();
+					var columnLanguageName = "NAME_" + codeLanguage;
+					var query = "" +
+						"SELECT ID, CODE, " + columnLanguageName + " AS NAME, " +
+						"IS_SELECTED FROM APP_LANGUAGE";
+					getDataBySelectQuery(deferred, query);
+					return deferred.promise;
+				}
+
+				function getCategoriesData() {
+					var deferred = $q.defer();
+					var columnLanguageName = "NAME_" + codeLanguage;
+					var query = "" +
+						"SELECT ID, " + columnLanguageName + " AS NAME, " +
+						"RANGE, IS_VISIBLE, ICON FROM APP_CATEGORY ORDER BY RANGE";
+					getDataBySelectQuery(deferred, query);
+					return deferred.promise;
+				}
+
+				$q.all([
+			        getCitationsByLanguage(),
+			        getLanguagesData(),
+			        getCategoriesData()
+		        ]).then(function(values) {
+
+		        	var citations = values[0];
+		        	var languages = values[1];
+		        	var categories = values[2];
+
+		        	var catsCits = prepareCategoriesAndCitationsData(citations);
+
+					countNumberOfCitationsLoved(catsCits);
+
+					var data = {
+						language: language,
+						languages: languages,
+						categories: categories,
+						catsCits: catsCits
+					};
+
+					deferred.resolve(data);
+
+			    }, function(reason) {
+
+			    	console.log('Error: ' + reason);
+					deferred.reject(reason);
+
+			    });
+
+			}, function(reason) {
+
+				console.log('Error: ' + reason);
+				deferred.reject(reason);
+
+			});
+
+		}, function(reason) {
+
+			console.log('Error: ' + reason);
+			deferred.reject(reason);
+
+		});
+
+		return deferred.promise;
+	}
+
+	function prepareCategoriesAndCitationsData(citationsRef) {
+		var categories = [];
+
+		function getCategory(ID_CATEGORY) {
+
+			var categorySelected = null;
+
+			angular.forEach(categories, function(category) {
+				if (category.id === ID_CATEGORY) {
+					categorySelected = category;
+				}
+			});
+
+			return categorySelected;
+		}
+
+		angular.forEach (citationsRef, function(citationRef) {
+			var category = getCategory(citationRef.ID_CATEGORY);
+			if (category != null) {
+				category.citations.push(
+		            {
+		            	id: citationRef.ID_CITATION,
+		            	content: citationRef.CITATION,
+		            	author: citationRef.AUTHOR,
+		            	is_loved: citationRef.IS_LOVED
+		            }
+	            );
+			} else {
+				categories.push(
+					{
+						id: citationRef.ID_CATEGORY,
+						name: citationRef.CATEGORY,
+						is_visible: citationRef.IS_VISIBLE,
+						range: citationRef.RANGE,
+						icon: citationRef.ICON,
+						citations: [
+				            {
+				            	id: citationRef.ID_CITATION,
+				            	content: citationRef.CITATION,
+				            	author: citationRef.AUTHOR,
+				            	is_loved: citationRef.IS_LOVED
+				            }
+			            ]
+					}
+				);
+			}
+		});
+
+		return categories;
+	}
+
+	function countNumberOfCitationsLoved(categories) {
+
+		angular.forEach(categories, function(category) {
+
+			var count = 0;
+
+			angular.forEach(category.citations, function(citation) {
+				count = count + citation.is_loved;
+			});
+
+			category.nbCitationsLoved = count;
+
+		});
+
+	}
+
+	function updateData(query, params) {
+
+		var promise = self.openDatabase();
+
+		promise.then(function() {
+
+			self.db.transaction(function (tx) {
+
+		        tx.executeSql(query, params,
+        		function(tx, res) {
+		            console.log("rowsAffected: " + res.rowsAffected);
+		        },
+		        function(tx, error) {
+		            console.log('UPDATE error: ' + error.message);
+		        });
+
+		    }, function(error) {
+		        console.log('Transaction error: ' + error.message);
+		    }, function() {
+		        console.log('Transaction ok');
+		    });
 
 		}, function(reason) {
 
@@ -123,7 +303,26 @@ function DatabaseService($q, ToolService) {
 
 		});
 
-		return deferred.promise;
+	}
+
+	function updateCitationImageLoved(idCitation, imageIsLoved) {
+
+		var query = "UPDATE APP_CITATION SET IS_LOVED = ? WHERE ID = ?";
+
+		var params = [imageIsLoved, idCitation];
+
+		updateData(query, params);
+
+	}
+
+	function updateRangeCategory(idCategory, rangeCategory) {
+
+		var query = "UPDATE APP_CATEGORY SET RANGE = ? WHERE ID = ?";
+
+		var params = [rangeCategory, idCategory];
+
+		updateData(query, params);
+
 	}
 
 }

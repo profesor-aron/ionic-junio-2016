@@ -11,5 +11,19 @@
 }
 
 .aehp-citation {
+	font-family: "Times New Roman", Times, serif;
 	font-size: 20px;
+}
+
+.aehp-category {
+	border: 1px solid blue;
+    border-radius: 10px;
+}
+
+.aehp-category-name {
+	border: 1px solid #387ef5;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #387ef5;
+    color: white;
 }

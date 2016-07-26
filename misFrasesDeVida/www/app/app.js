@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'ngCordova'])
 
-.run(function($ionicPlatform, DatabaseService) {
+.run(function($ionicPlatform, $rootScope, $timeout, $http, DatabaseService) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -21,33 +21,30 @@ angular.module('starter', ['ionic', 'ngCordova'])
       StatusBar.styleDefault();
     }
 
-    initLanguages();
+    initData();
 
-	function initLanguages() {
+	function initData() {
+/*
+		$timeout(function() {
 
-	    var promise = DatabaseService.getLanguages();
+			$http.get('data.txt')
+            .then(function (data) {
+                $rootScope.data = data.data;
+            }, function (error) {
+                console.log("Error " + error);
+            });
 
-		promise.then(function(languages) {
-			console.log(languages);
+		}, 3000);
+*/
 
-			initCitations();
+		var promise = DatabaseService.getData();
 
+		promise.then(function(data) {
+			console.log(data);
+//			console.log(JSON.stringify(data));
+			$rootScope.data = data;
 		}, function(reason) {
-			console.log('Error in DatabaseService.getLanguages(): ' + reason);
-		});
-
-	}
-
-	function initCitations() {
-
-		var codeLanguage = "es";
-
-		var promise = DatabaseService.getCitationsByLanguage(codeLanguage);
-
-		promise.then(function(citations) {
-			console.log(citations);
-		}, function(reason) {
-			console.log('Error in DatabaseService.getCitationsByLanguage(): ' + reason);
+			console.log('Error in DatabaseService.getData(): ' + reason);
 		});
 
 	}

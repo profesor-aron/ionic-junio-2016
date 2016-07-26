@@ -1,32 +1,31 @@
 <ion-view>
 
-<ion-header-bar align-title="center" class="bar-positive">
-  <h1 class="title">Category 1</h1>
-  <div class = "buttons aehp-box">12/50</div>
-</ion-header-bar>
+<div class="bar bar-header bar-positive">
+  <h1 class="title">{{ model.nameCategory }}</h1>
+  <button class="button">{{ model.rangeCitation}}</button>
+</div>
 
-<ion-content>
+<ion-content class="padding has-header">
 
-<div class="aehp-separator"></div>
-<div class="aehp-separator"></div>
+  <div class="aehp-separator"></div>
+  <div class="aehp-separator"></div>
 
   <div class="text-center aehp-citation">
     <p>
-    "Frase 1 Frase 1 Frase 1 Frase 1
-    Frase 1 Frase 1 Frase 1 Frase 1"
+      &#8220; {{ model.contentCitation }} &#8221;
     </p>
   </div>
 
   <div class="aehp-separator"></div>
 
   <div class="text-center">
-    "Autor"
+    {{ model.authorCitation }}
   </div>
 
   <div class="aehp-separator"></div>
 
   <div class="text-center">
-    <img src="assets/img/thumbs/green-thumb.png">
+    <img src="{{ model.imageLoved }}" ng-click="actions.updateCitationImageIsLoved()">
   </div>
 
 </ion-content>
@@ -36,7 +35,7 @@
   <div class="row">
     <div class="col col-center text-center">
 
-      <button class="button button-block" ng-click="doSomething()">
+      <button class="button button-block" ng-click="actions.goToPrecedentCitation()">
         <i class="icon ion-arrow-left-b"></i>
       </button>
 
@@ -44,7 +43,7 @@
 
     <div class="col col-center text-center">
 
-      <button class="button button-block" ng-click="doSomething()">
+      <button class="button button-block" ng-click="actions.goToCategories()">
           <i class="icon ion-home"></i>
       </button>
 
@@ -52,7 +51,7 @@
 
     <div class="col col-center text-center">
 
-      <button class="button button-block" ng-click="doSomething()">
+      <button class="button button-block" ng-click="actions.goToNextCitation()">
         <i class="icon ion-arrow-right-b"></i>
       </button>
 
