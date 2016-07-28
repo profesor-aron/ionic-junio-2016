@@ -30,11 +30,15 @@
        	class="enable-pointer-events"
        	ng-click="actions.updateCategoryByIsVisible(category)">
 
-        <img
-          src="assets/img/checkbox/{{ category.is_visible ? 'checkbox-on.png' : 'checkbox-off.png' }}"
+        <aehp-img
+          src="{{ 'assets/img/checkbox/' + (category.is_visible ? 'checkbox-on.png' : 'checkbox-off.png') }}"
           width="30px">
+        </aehp-img>
 
-        <img src="assets/img/categories/{{ category.icon }}" width="30px">
+        <aehp-img
+          src="{{ 'assets/img/categories/' + category.icon }}"
+          width="30px">
+        </aehp-img>
 
         <span >{{ category.name }}</span>
 

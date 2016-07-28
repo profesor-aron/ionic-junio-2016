@@ -24,7 +24,7 @@ angular.module('starter', ['ionic', 'ngCordova'])
     initData();
 
 	function initData() {
-/*
+
 		$timeout(function() {
 
 			$http.get('data.txt')
@@ -36,8 +36,8 @@ angular.module('starter', ['ionic', 'ngCordova'])
             });
 
 		}, 3000);
-*/
 
+/*
 		var promise = DatabaseService.getData();
 
 		promise.then(function(data) {
@@ -47,7 +47,7 @@ angular.module('starter', ['ionic', 'ngCordova'])
 		}, function(reason) {
 			console.log('Error in DatabaseService.getData(): ' + reason);
 		});
-
+*/
 	}
 
   });

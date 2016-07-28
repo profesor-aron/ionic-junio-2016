@@ -28,6 +28,12 @@ function configStateAndRouterProvider($stateProvider, $urlRouterProvider) {
 		templateUrl: 'app/components/compSettingsCategories/settingsCategories.view.html',
 		controller: 'SettingsCategoriesController'
 	})
+	.state('settingsLanguage', {
+		cache: false,
+		url: '/settingsLanguage',
+		templateUrl: 'app/components/compSettingsLanguage/settingsLanguage.view.html',
+		controller: 'SettingsLanguageController'
+	})
 	;
 
 }

@@ -62,6 +62,7 @@ function CategoriesController($scope, $rootScope, $state) {
 		$scope.actions = {};
 		$scope.actions.goToCitation = goToCitation;
 		$scope.actions.goToSettingsCategories = goToSettingsCategories;
+		$scope.actions.goToSettingsLanguage = goToSettingsLanguage;
 
 	}
 
@@ -71,6 +72,10 @@ function CategoriesController($scope, $rootScope, $state) {
 
 	function goToSettingsCategories() {
 		$state.go('settingsCategories');
+	}
+
+	function goToSettingsLanguage() {
+		$state.go('settingsLanguage');
 	}
 
 }

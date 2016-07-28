@@ -1,0 +1,60 @@
+<ion-view>
+
+<div class="bar bar-header bar-positive">
+  <h1 class="title">Settings Language</h1>
+</div>
+
+<ion-content class="padding has-header">
+
+  <ion-list>
+
+    <div class="item item-divider">
+      <div>
+        Languages
+      </div>
+    </div>
+
+    <ion-radio
+      ng-model="currentLanguage.CODE"
+      ng-value="language.CODE"
+      ng-repeat="language in languages"
+      icon="icon ion-checkmark-circled">
+
+      <aehp-img
+        src="{{ 'assets/img/languages/' + language.CODE + '.png' }}"
+        width="40px">
+      </aehp-img>
+
+      {{ language.NAME }}
+
+    </ion-radio>
+
+    <div class="row">
+      <div class="col text-center">
+
+        <button class="button button-positive">
+	      <i class="fa fa-floppy-o fa-lg"></i> Save
+	    </button>
+
+      </div>
+    </div>
+
+  </ion-list>
+
+</ion-content>
+
+<ion-footer-bar class="bar-assertive">
+
+  <div class="row">
+
+    <div class="col col-25 col-center">
+      <button class="button button-block" ng-click="actions.goToCategories()">
+        <i class="icon ion-arrow-left-b"></i>
+      </button>
+    </div>
+
+  </div>
+
+</ion-footer-bar>
+
+</ion-view>
