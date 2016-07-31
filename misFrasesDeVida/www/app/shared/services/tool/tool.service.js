@@ -7,6 +7,7 @@ function ToolService() {
 	var self = this;
 
 	self.getRowsByFunctionAndLength = getRowsByFunctionAndLength;
+	self.changeIsVisible = changeIsVisible;
 
 	function getRowsByFunctionAndLength(func, nb) {
 		var rows = [];
@@ -16,6 +17,10 @@ function ToolService() {
 		}
 
 		return rows;
+	}
+
+	function changeIsVisible(value) {
+		return (value ? 0 : 1);
 	}
 
 }

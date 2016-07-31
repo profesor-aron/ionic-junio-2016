@@ -6,6 +6,8 @@
   },
   "dependencies": {
     "ngCordova": "^0.1.27-alpha",
-    "components-font-awesome": "^4.6.3"
+    "components-font-awesome": "^4.6.3",
+    "angular-translate": "^2.11.1",
+    "angular-translate-loader-static-files": "^2.11.1"
   }
 }

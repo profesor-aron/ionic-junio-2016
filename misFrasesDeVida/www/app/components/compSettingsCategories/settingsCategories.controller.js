@@ -2,7 +2,7 @@ angular
 	.module('starter')
 	.controller('SettingsCategoriesController', SettingsCategoriesController);
 
-function SettingsCategoriesController($scope, $rootScope, $state, DatabaseService) {
+function SettingsCategoriesController($scope, $rootScope, $state, DatabaseService, ToolService) {
 
 	var self = this;
 
@@ -38,9 +38,9 @@ function SettingsCategoriesController($scope, $rootScope, $state, DatabaseServic
 		});
 
 		if (count === nbCategories) {
-			$scope.model.selectAllCategories = true;	
+			$scope.model.selectAllCategories = 1; // true
 		} else {
-			$scope.model.selectAllCategories = false;
+			$scope.model.selectAllCategories = 0; // false
 		}
 
 	}
@@ -97,7 +97,7 @@ function SettingsCategoriesController($scope, $rootScope, $state, DatabaseServic
 
 	function updateCategoryByIsVisible(category) {
 
-		category.is_visible = !category.is_visible;
+		category.is_visible = ToolService.changeIsVisible(category.is_visible);
 
 		updateSelectAllCategories();
 
@@ -109,7 +109,7 @@ function SettingsCategoriesController($scope, $rootScope, $state, DatabaseServic
 
 		var categories = getCategories();
 
-		$scope.model.selectAllCategories = !$scope.model.selectAllCategories;
+		$scope.model.selectAllCategories = ToolService.changeIsVisible($scope.model.selectAllCategories);
 
 		angular.forEach(categories, function(category) {
 			category.is_visible = $scope.model.selectAllCategories;
@@ -121,9 +121,7 @@ function SettingsCategoriesController($scope, $rootScope, $state, DatabaseServic
 
 	function updateIsVisibleCategoryDB(category) {
 
-		var isVisibleCategory = Number(category.is_visible);
-
-		DatabaseService.updateIsVisibleCategory(category.id, isVisibleCategory);
+		DatabaseService.updateIsVisibleCategory(category.id, category.is_visible);
 
 	}
 

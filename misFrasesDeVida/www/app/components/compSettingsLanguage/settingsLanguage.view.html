@@ -1,7 +1,7 @@
 <ion-view>
 
 <div class="bar bar-header bar-positive">
-  <h1 class="title">Settings Language</h1>
+  <h1 class="title">{{ 'SETTINGS_LANGUAGE_TITLE' | translate }}</h1>
 </div>
 
 <ion-content class="padding has-header">
@@ -10,7 +10,7 @@
 
     <div class="item item-divider">
       <div>
-        Languages
+        {{ 'SETTINGS_LANGUAGE_SUB_TITLE' | translate }}
       </div>
     </div>
 
@@ -18,6 +18,7 @@
       ng-model="currentLanguage.CODE"
       ng-value="language.CODE"
       ng-repeat="language in languages"
+      ng-change="actions.updateSelectedLanguage(language)"
       icon="icon ion-checkmark-circled">
 
       <aehp-img
@@ -32,8 +33,11 @@
     <div class="row">
       <div class="col text-center">
 
-        <button class="button button-positive">
-	      <i class="fa fa-floppy-o fa-lg"></i> Save
+        <button
+          class="button button-positive"
+          ng-click="actions.saveLanguage()"
+          ng-disabled="selectedLanguage.ID === currentLanguage.ID">
+	      <i class="fa fa-floppy-o fa-lg"></i> {{ 'SETTINGS_LANGUAGE_BTN_SAVE' | translate }}
 	    </button>
 
       </div>

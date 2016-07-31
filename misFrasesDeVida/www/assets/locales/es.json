@@ -1,0 +1,16 @@
+{
+  "CATEGORIES_TITLE": "Categorias",
+
+  "SETTINGS_CATEGORIES_TITLE": "Configuración de Categorias",
+  "SETTINGS_CATEGORIES_SUB_TITLE": "Categorias",
+
+  "SETTINGS_LANGUAGE_TITLE": "Configuración del Idioma",
+  "SETTINGS_LANGUAGE_SUB_TITLE": "Idiomas",
+  "SETTINGS_LANGUAGE_BTN_SAVE": "Registrar",
+
+  "LANGUAGE_POPUP_TITLE": "Idioma",
+  "LANGUAGE_POPUP_TEMPLATE": "¿Está usted seguro de querer cambiar de idioma?",
+  "LANGUAGE_POPUP_BTN_CANCEL_TEXT": "No",
+  "LANGUAGE_POPUP_BTN_OK_TEXT": "Si"
+
+}

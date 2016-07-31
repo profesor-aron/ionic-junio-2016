@@ -14,6 +14,7 @@ function DatabaseService($q, ToolService) {
 	self.updateCitationImageLoved = updateCitationImageLoved;
 	self.updateRangeCategory = updateRangeCategory;
 	self.updateIsVisibleCategory = updateIsVisibleCategory;
+	self.updateIsSelectedLanguage = updateIsSelectedLanguage;
 
 	function openDatabase() {
 
@@ -278,6 +279,8 @@ function DatabaseService($q, ToolService) {
 
 	function updateData(query, params) {
 
+		var deferred = $q.defer();
+
 		var promise = self.openDatabase();
 
 		promise.then(function() {
@@ -286,9 +289,10 @@ function DatabaseService($q, ToolService) {
 
 		        tx.executeSql(query, params,
         		function(tx, res) {
-		            console.log("rowsAffected: " + res.rowsAffected);
+		        	deferred.resolve(res.rowsAffected);
 		        },
 		        function(tx, error) {
+		        	deferred.reject(0);
 		            console.log('UPDATE error: ' + error.message);
 		        });
 
@@ -300,10 +304,12 @@ function DatabaseService($q, ToolService) {
 
 		}, function(reason) {
 
+			deferred.reject(0);
 			console.log('Error: ' + reason);
 
 		});
 
+		return deferred.promise;
 	}
 
 	function updateCitationImageLoved(idCitation, imageIsLoved) {
@@ -335,5 +341,14 @@ function DatabaseService($q, ToolService) {
 		updateData(query, params);
 
 	}
+
+	function updateIsSelectedLanguage(idLanguage, isSelectedLanguage) {
+
+		var query = "UPDATE APP_LANGUAGE SET IS_SELECTED = ? WHERE ID = ?";
+
+		var params = [isSelectedLanguage, idLanguage];
+
+		return updateData(query, params);		
+	}	
 
 }

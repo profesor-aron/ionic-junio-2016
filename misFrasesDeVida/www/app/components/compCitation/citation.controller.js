@@ -2,7 +2,7 @@ angular
 	.module('starter')
 	.controller('CitationController', CitationController);
 
-function CitationController($scope, $rootScope, $state, DatabaseService) {
+function CitationController($scope, $rootScope, $state, DatabaseService, ToolService, AppService) {
 
 	var self = this;
 
@@ -10,11 +10,7 @@ function CitationController($scope, $rootScope, $state, DatabaseService) {
 	self.indexCurrentCategory = 0;
 	self.indexCurrentCitation = 0;
 
-	$rootScope.$watch("data.catsCits", function() {
-		if(angular.isDefined($rootScope.data)) {
-			init();
-		}
-	}, true);
+	AppService.initUI(init);
 
 	function init() {
 
@@ -47,6 +43,8 @@ function CitationController($scope, $rootScope, $state, DatabaseService) {
 				}
 
 			});
+
+			$state.params.idCategory = null;
 
 		}
 
@@ -151,7 +149,7 @@ function CitationController($scope, $rootScope, $state, DatabaseService) {
 
 	function updateCitationImageIsLoved() {
 
-		$scope.model.imageIsLoved = !isImageLoved();
+		$scope.model.imageIsLoved = ToolService.changeIsVisible(isImageLoved());
 
 		generateCitationImageLoved();
 

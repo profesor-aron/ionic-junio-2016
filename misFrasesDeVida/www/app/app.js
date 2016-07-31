@@ -3,9 +3,12 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngCordova'])
-
-.run(function($ionicPlatform, $rootScope, $timeout, $http, DatabaseService) {
+angular.module('starter', [
+	'ionic',
+	'ngCordova',
+	'pascalprecht.translate'
+])
+.run(function($ionicPlatform, AppService) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -25,29 +28,8 @@ angular.module('starter', ['ionic', 'ngCordova'])
 
 	function initData() {
 
-		$timeout(function() {
+		AppService.getData();
 
-			$http.get('data.txt')
-            .then(function (data) {
-            	console.log(data);
-                $rootScope.data = data.data;
-            }, function (error) {
-                console.log("Error " + error);
-            });
-
-		}, 3000);
-
-/*
-		var promise = DatabaseService.getData();
-
-		promise.then(function(data) {
-			console.log(data);
-//			console.log(JSON.stringify(data));
-			$rootScope.data = data;
-		}, function(reason) {
-			console.log('Error in DatabaseService.getData(): ' + reason);
-		});
-*/
 	}
 
   });

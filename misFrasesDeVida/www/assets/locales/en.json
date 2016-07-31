@@ -1,0 +1,16 @@
+{
+  "CATEGORIES_TITLE": "Categories",
+
+  "SETTINGS_CATEGORIES_TITLE": "Settings Categories",
+  "SETTINGS_CATEGORIES_SUB_TITLE": "Categories",
+
+  "SETTINGS_LANGUAGE_TITLE": "Settings Language",
+  "SETTINGS_LANGUAGE_SUB_TITLE": "Languages",
+  "SETTINGS_LANGUAGE_BTN_SAVE": "Save",
+
+  "LANGUAGE_POPUP_TITLE": "Language",
+  "LANGUAGE_POPUP_TEMPLATE": "Are you sure you want to change this language?",
+  "LANGUAGE_POPUP_BTN_CANCEL_TEXT": "Cancel",
+  "LANGUAGE_POPUP_BTN_OK_TEXT": "OK"
+
+}
